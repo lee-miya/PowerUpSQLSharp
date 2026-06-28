@@ -1,0 +1,40 @@
+namespace PowerUpSQLSharp.Core.Models
+{
+    public enum SqlReconOperation
+    {
+        Database,
+        DatabaseUser,
+        DatabaseSchema,
+        DatabaseRole,
+        DatabaseRoleMember,
+        DatabasePriv,
+        Table,
+        TableTemp,
+        Column,
+        ColumnSampleData,
+        View,
+        StoredProcedure,
+        StoredProcedureClr,
+        StoredProcedureSqli,
+        StoredProcedureAutoExec,
+        StoredProcedureXp,
+        TriggerDdl,
+        TriggerDml,
+        Session,
+        CustomQuery,
+        ServerLogin,
+        ServerPasswordHash,
+        ServerRole,
+        ServerRoleMember,
+        ServerPriv,
+        ServerCredential,
+        ServerPolicy,
+        ServiceAccount,
+        AgentJob,
+        AssemblyFile,
+        OleDbProvider,
+        AuditDatabaseSpec,
+        AuditServerSpec,
+        RecoverPwAutoLogon
+    }
+}

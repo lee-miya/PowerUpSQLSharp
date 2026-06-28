@@ -185,6 +185,26 @@ namespace PowerUpSQLSharp.Tests.Commands
                 return Array.Empty<SqlServerConfigurationEntry>();
             }
 
+            public IReadOnlyList<IDictionary<string, object>> Query(
+                SqlReconOperation operation,
+                SqlConnectionOptions options,
+                ReconQueryFilters filters,
+                CancellationToken cancellationToken = default)
+            {
+                return Array.Empty<IDictionary<string, object>>();
+            }
+
+            public IReadOnlyList<IDictionary<string, object>> QueryThreaded(
+                SqlReconOperation operation,
+                IEnumerable<string> instances,
+                SqlConnectionOptions templateOptions,
+                ReconQueryFilters filters,
+                int maxThreads,
+                CancellationToken cancellationToken = default)
+            {
+                return Array.Empty<IDictionary<string, object>>();
+            }
+
         }
 
     }

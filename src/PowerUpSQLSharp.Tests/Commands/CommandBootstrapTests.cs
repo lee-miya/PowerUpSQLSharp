@@ -36,6 +36,12 @@ namespace PowerUpSQLSharp.Tests.Commands
             Assert.False(localAdminCommand is NotImplementedCommand);
             Assert.True(registry.TryGet("Get-SQLServerConfiguration", out var configurationCommand));
             Assert.False(configurationCommand is NotImplementedCommand);
+            Assert.True(registry.TryGet("Get-SQLDatabase", out var databaseCommand));
+            Assert.False(databaseCommand is NotImplementedCommand);
+            Assert.True(registry.TryGet("Get-SQLTable", out var tableCommand));
+            Assert.False(tableCommand is NotImplementedCommand);
+            Assert.True(registry.TryGet("Invoke-SQLDumpInfo", out var dumpInfoCommand));
+            Assert.False(dumpInfoCommand is NotImplementedCommand);
             Assert.True(registry.TryGet("Invoke-SQLOSCmd", out _));
         }
     }

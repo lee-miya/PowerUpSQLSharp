@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading;
 using PowerUpSQLSharp.Core.Models;
@@ -10,6 +11,7 @@ namespace PowerUpSQLSharp.Core.Services
     {
         private readonly ISqlConnectionFactory _connectionFactory;
         private readonly IConnectionTestService _connectionTestService;
+        private readonly ReconQueryRunner _reconQueryRunner;
 
         public PrivilegeInspectionService(
             ISqlConnectionFactory connectionFactory,
@@ -17,6 +19,7 @@ namespace PowerUpSQLSharp.Core.Services
         {
             _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
             _connectionTestService = connectionTestService ?? throw new ArgumentNullException(nameof(connectionTestService));
+            _reconQueryRunner = new ReconQueryRunner(connectionFactory, connectionTestService);
         }
 
         public SqlSysadminStatus GetSysadminStatus(
@@ -81,6 +84,22 @@ namespace PowerUpSQLSharp.Core.Services
                 CurrentUser = identity.Name ?? string.Empty,
                 IsLocalAdmin = principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator)
             };
+        }
+
+        public IReadOnlyList<IDictionary<string, object>> GetDatabasePriv(
+            SqlConnectionOptions options,
+            ReconQueryFilters filters,
+            CancellationToken cancellationToken = default)
+        {
+            return _reconQueryRunner.Execute(SqlReconOperation.DatabasePriv, options, filters, cancellationToken);
+        }
+
+        public IReadOnlyList<IDictionary<string, object>> GetServerPriv(
+            SqlConnectionOptions options,
+            ReconQueryFilters filters,
+            CancellationToken cancellationToken = default)
+        {
+            return _reconQueryRunner.Execute(SqlReconOperation.ServerPriv, options, filters, cancellationToken);
         }
 
         private static SqlConnectionOptions CloneOptions(SqlConnectionOptions template, string instance)

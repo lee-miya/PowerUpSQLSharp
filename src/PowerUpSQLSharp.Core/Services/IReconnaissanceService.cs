@@ -42,6 +42,20 @@ namespace PowerUpSQLSharp.Core.Services
             int maxThreads,
             CancellationToken cancellationToken = default);
 
+        IReadOnlyList<IDictionary<string, object>> Query(
+            SqlReconOperation operation,
+            SqlConnectionOptions options,
+            ReconQueryFilters filters,
+            CancellationToken cancellationToken = default);
+
+        IReadOnlyList<IDictionary<string, object>> QueryThreaded(
+            SqlReconOperation operation,
+            IEnumerable<string> instances,
+            SqlConnectionOptions templateOptions,
+            ReconQueryFilters filters,
+            int maxThreads,
+            CancellationToken cancellationToken = default);
+
     }
 
 }

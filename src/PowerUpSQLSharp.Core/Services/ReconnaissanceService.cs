@@ -24,6 +24,8 @@ namespace PowerUpSQLSharp.Core.Services
 
         private readonly IConnectionTestService _connectionTestService;
 
+        private readonly ReconQueryRunner _reconQueryRunner;
+
 
 
         public ReconnaissanceService(
@@ -37,6 +39,8 @@ namespace PowerUpSQLSharp.Core.Services
             _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
 
             _connectionTestService = connectionTestService ?? throw new ArgumentNullException(nameof(connectionTestService));
+
+            _reconQueryRunner = new ReconQueryRunner(connectionFactory, connectionTestService);
 
         }
 
@@ -179,6 +183,39 @@ namespace PowerUpSQLSharp.Core.Services
                 instances,
                 maxThreads,
                 (instance, token) => GetServerConfiguration(CloneOptions(templateOptions, instance), token),
+                cancellationToken);
+        }
+
+        public IReadOnlyList<IDictionary<string, object>> Query(
+            SqlReconOperation operation,
+            SqlConnectionOptions options,
+            ReconQueryFilters filters,
+            CancellationToken cancellationToken = default)
+        {
+            return _reconQueryRunner.Execute(operation, options, filters, cancellationToken);
+        }
+
+        public IReadOnlyList<IDictionary<string, object>> QueryThreaded(
+            SqlReconOperation operation,
+            IEnumerable<string> instances,
+            SqlConnectionOptions templateOptions,
+            ReconQueryFilters filters,
+            int maxThreads,
+            CancellationToken cancellationToken = default)
+        {
+            if (templateOptions == null)
+            {
+                throw new ArgumentNullException(nameof(templateOptions));
+            }
+
+            return ThreadedExecutor.Execute(
+                instances,
+                maxThreads,
+                (instance, token) => Query(
+                    operation,
+                    CloneOptions(templateOptions, instance),
+                    filters,
+                    token),
                 cancellationToken);
         }
 
