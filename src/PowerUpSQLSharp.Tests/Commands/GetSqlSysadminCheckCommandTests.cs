@@ -82,6 +82,22 @@ namespace PowerUpSQLSharp.Tests.Commands
             {
                 return new SqlLocalAdminStatus { CurrentUser = "TEST\\user", IsLocalAdmin = false };
             }
+
+            public IReadOnlyList<IDictionary<string, object>> GetDatabasePriv(
+                SqlConnectionOptions options,
+                ReconQueryFilters filters,
+                CancellationToken cancellationToken = default)
+            {
+                return System.Array.Empty<IDictionary<string, object>>();
+            }
+
+            public IReadOnlyList<IDictionary<string, object>> GetServerPriv(
+                SqlConnectionOptions options,
+                ReconQueryFilters filters,
+                CancellationToken cancellationToken = default)
+            {
+                return System.Array.Empty<IDictionary<string, object>>();
+            }
         }
     }
 }

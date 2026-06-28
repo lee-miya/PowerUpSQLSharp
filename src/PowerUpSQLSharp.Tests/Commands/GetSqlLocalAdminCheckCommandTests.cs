@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using PowerUpSQLSharp.Core.Commands;
@@ -47,6 +48,22 @@ namespace PowerUpSQLSharp.Tests.Commands
             public SqlLocalAdminStatus CheckLocalAdministrator()
             {
                 return _status;
+            }
+
+            public IReadOnlyList<IDictionary<string, object>> GetDatabasePriv(
+                SqlConnectionOptions options,
+                ReconQueryFilters filters,
+                CancellationToken cancellationToken = default)
+            {
+                return System.Array.Empty<IDictionary<string, object>>();
+            }
+
+            public IReadOnlyList<IDictionary<string, object>> GetServerPriv(
+                SqlConnectionOptions options,
+                ReconQueryFilters filters,
+                CancellationToken cancellationToken = default)
+            {
+                return System.Array.Empty<IDictionary<string, object>>();
             }
         }
     }
