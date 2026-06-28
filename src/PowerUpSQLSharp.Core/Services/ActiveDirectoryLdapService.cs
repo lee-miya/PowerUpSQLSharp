@@ -100,12 +100,14 @@ namespace PowerUpSQLSharp.Core.Services
 
         private static void AppendSpnEntries(SearchResult result, ICollection<DomainSpnEntry> entries)
         {
-            var spnValues = GetPropertyValues(result, "servicePrincipalName");
-            if (spnValues.Count == 0)
+            if (result?.Properties == null
+                || !result.Properties.Contains("servicePrincipalName")
+                || result.Properties["servicePrincipalName"].Count == 0)
             {
                 return;
             }
 
+            var spnValues = GetPropertyValues(result, "servicePrincipalName");
             var sid = FormatObjectSid(GetPropertyValue(result, "objectSid"));
             var samAccount = GetPropertyValue(result, "samAccountName");
             var cn = GetPropertyValue(result, "cn");
@@ -133,7 +135,7 @@ namespace PowerUpSQLSharp.Core.Services
             }
         }
 
-        private static IList GetPropertyValues(SearchResult result, string propertyName)
+        private static IEnumerable GetPropertyValues(SearchResult result, string propertyName)
         {
             if (result?.Properties == null || !result.Properties.Contains(propertyName))
             {
@@ -145,13 +147,12 @@ namespace PowerUpSQLSharp.Core.Services
 
         private static string GetPropertyValue(SearchResult result, string propertyName)
         {
-            var values = GetPropertyValues(result, propertyName);
-            if (values.Count == 0 || values[0] == null)
+            foreach (object value in GetPropertyValues(result, propertyName))
             {
-                return string.Empty;
+                return value?.ToString() ?? string.Empty;
             }
 
-            return values[0].ToString();
+            return string.Empty;
         }
 
         private static string FormatObjectSid(object sidValue)
