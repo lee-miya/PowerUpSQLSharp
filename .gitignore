@@ -1,0 +1,19 @@
+# Build
+bin/
+obj/
+dist/
+*.user
+*.suo
+.vs/
+
+# Secrets
+.env
+credentials.json
+*.pfx
+
+# IDE
+.idea/
+.cursor/
+
+# Test results
+TestResults/
