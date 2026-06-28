@@ -33,7 +33,7 @@ namespace PowerUpSQLSharp.Core.Utils
             return row;
         }
 
-        internal static string GetString(IReadOnlyDictionary<string, object> row, string columnName)
+        internal static string GetString(IDictionary<string, object> row, string columnName)
         {
             if (row == null || !row.TryGetValue(columnName, out var value) || value == null || value == DBNull.Value)
             {

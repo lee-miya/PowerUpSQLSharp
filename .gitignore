@@ -15,5 +15,8 @@ credentials.json
 .idea/
 .cursor/
 
+# Local reference / temporary
+.tmp/
+
 # Test results
 TestResults/
